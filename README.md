@@ -8,9 +8,10 @@
 
 ## Current Team
  - [ConMaster2112](https://github.com/ConsoleTerm)
+ - [Remember M9](https://github.com/Remember-M9)
 
 ## 10k version Team
- - Remember M9
+ - [Remember M9](https://github.com/Remember-M9)
  - Dingsel
  - Axoyl
  - Big Chungus
