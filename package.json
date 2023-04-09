@@ -4,7 +4,8 @@
   "description": "The INSECT TITANS",
   "scripts": {
     "watch": "regolith watch",
-    "update": "npm install @minecraft/server-ui@beta @minecraft/server@beta & regolith run"
+    "update": "npm install @minecraft/server-ui@beta @minecraft/server@beta & regolith run",
+    "open": "regolith run & explorer \".\\resources\\World-No-Packs.mcworld\""
   },
   "repository": {
     "type": "git",
