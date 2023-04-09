@@ -1,0 +1,58 @@
+{
+	"format_version": "1.10.0",
+	"particle_effect": {
+		"description": {
+			"identifier": "dest:laser",
+                "basic_render_parameters": {
+				"material": "particles_alpha",
+				"texture": "textures/particle/cross"
+			}
+		},
+		"curves": {
+			"variable.size": {
+				"type": "linear",
+				"input": "v.particle_age",
+				"horizontal_range": "v.particle_lifetime",
+				"nodes": [1, 1, 1, 0]
+			}
+		},
+		"components": {
+			"minecraft:emitter_initialization": {
+				"creation_expression": "v.color;v.sp;v.sets;v.i = 0;v.var;"
+			},
+			"minecraft:emitter_rate_instant": {
+				"num_particles": "v.sets.a"
+			},
+			"minecraft:emitter_lifetime_looping": {
+				"active_time": 1
+			},
+			"minecraft:emitter_shape_point": {
+				"direction": ["v.sp.direction_x", "v.sp.direction_y", "v.sp.direction_z"],
+                "offset": [
+                    "v.i = v.i+1; return v.sp.direction_x*v.i;",
+                    "v.sp.direction_y*v.i",
+                    "v.sp.direction_z*v.i"
+                ]
+			},
+			"minecraft:particle_lifetime_expression": {
+				"max_lifetime": "v.sets.g"
+			},
+			"minecraft:particle_motion_dynamic": {
+				"linear_drag_coefficient": "v.sets.r"
+			},
+			"minecraft:particle_initial_speed": "v.sp.speed",
+			"minecraft:particle_appearance_billboard": {
+				"size": ["v.sets.b*v.size", "v.sets.b*v.size"],
+				"uv": {
+					"texture_width": 16,
+					"texture_height": 16,
+					"uv": [0, 0],
+					"uv_size": [16, 16]
+				}
+			},
+			"minecraft:particle_appearance_tinting": {
+				"color": ["v.color.r", "v.color.g", "v.color.b", "v.color.a"]
+			}
+		}
+	}
+}

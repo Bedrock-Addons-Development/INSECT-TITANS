@@ -1,0 +1,45 @@
+{
+	"format_version": "1.19.0",
+	"animation_controllers": {
+		"controller.animation.enemy.animate": {
+			"states": {
+				"default": {
+					"transitions": [
+						{
+							"walk": "query.ground_speed > 0.1 && !query.vertical_speed"
+						},
+						{
+							"attack": "query.is_delayed_attacking && query.has_target"
+						}
+					],
+					"blend_transition": 0.1
+				},
+				"walk": {
+					"animations": [
+						"walk"
+					],
+					"transitions": [
+						{
+							"default": "query.ground_speed <= 0.01 || query.vertical_speed"
+						},
+						{
+							"attack": "query.is_delayed_attacking && query.has_target"
+						}
+					],
+					"blend_transition": 0.1
+				},
+				"attack":{
+					"animations":[
+						"attack"
+					],
+					"transitions":[
+						{
+							"default": "query.all_animations_finished"
+						}
+					],
+					"blend_transition":0.3
+			   }
+			}
+		}
+	}
+}

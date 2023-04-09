@@ -1,0 +1,111 @@
+{
+	"format_version": "1.17.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "dest:centipede_head",
+			"is_summonable": true,
+			"is_spawnable": true
+		},
+		"component_groups": {
+			"dest:despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+		"components": {
+			"minecraft:tick_world": {
+				"never_despawn": true,
+				"radius": 2
+			},
+			"minecraft:behavior.delayed_attack":{
+				"attack_duration": 0.4,
+				"attack_once": false,
+				"hit_delay_pct": 1,
+				"random_stop_interval": 0,
+				"reach_multiplier": 1.4
+			},
+			"minecraft:behavior.nearest_attackable_target": {
+				"within_radius": 256.0,
+				"scan_interval": 200,
+				"entity_types": [
+					{
+						"filters": {
+							"any_of": [
+								{
+									"test": "is_family",
+									"subject": "other",
+									"value": "objective"
+								},
+								{
+									"test": "is_family",
+									"subject": "other",
+									"value": "player"
+								}
+							]
+						},
+						"max_dist": 256
+					}
+				]
+			},
+			"minecraft:attack": {
+				"damage": 5
+			},
+			"minecraft:movement.basic": {},
+			"minecraft:jump.static": {},
+			"minecraft:can_climb": {},
+			"minecraft:navigation.generic": {
+				"is_amphibious": true,
+				"can_swim": true,
+				"can_jump": true,
+				"can_sink": true,
+				"can_path_over_water": true
+			},
+			"minecraft:follow_range": {
+				"value": 256,
+				"max": 256
+			},
+			"minecraft:movement": {
+				"value": 0.35
+			},
+			"minecraft:collision_box": {
+				"width": 1,
+				"height": 0.8
+			},
+			"minecraft:health": {
+				"value": 400
+			},
+			"minecraft:scale": {
+				"value": 4.0
+			},
+			"minecraft:is_hidden_when_invisible": {},
+			"minecraft:type_family": {
+				"family": [
+					"enemy",
+					"centipede"
+				]
+			},
+			"minecraft:physics": {},
+			"minecraft:pushable": {
+				"is_pushable": false,
+				"is_pushable_by_piston": true
+			},
+			"minecraft:leashable": {
+				"can_be_stolen": false,
+				"hard_distance": 13,
+				"max_distance": 15,
+				"soft_distance": 10
+			},
+			"minecraft:knockback_resistance": {
+				"value": 1
+			}
+		},
+		"events": {
+			"dest:despawn": {
+				"add": {
+					"component_groups": [
+						"dest:despawn"
+					]
+				}
+			}
+		}
+	}
+}

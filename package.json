@@ -1,0 +1,24 @@
+{
+  "name": "insect-titans",
+  "version": "0.1.0",
+  "description": "The INSECT TITANS",
+  "scripts": {
+    "watch": "regolith watch",
+    "update": "npm install @minecraft/server-ui@beta @minecraft/server@beta & regolith run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bedrock-Addons-Development/INSECT-TITANS"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bedrock-Addons-Development/INSECT-TITANS/issues"
+  },
+  "homepage": "https://github.com/Bedrock-Addons-Development/INSECT-TITANS#readme",
+  "dependencies": {
+    "@minecraft/server": "^1.2.0-beta.1.19.80-preview.24",
+    "@minecraft/server-ui": "^1.0.0-beta.1.19.80-preview.24"
+  }
+}

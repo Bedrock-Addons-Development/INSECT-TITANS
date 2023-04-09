@@ -1,0 +1,4 @@
+/.regolith
+/node_modules
+/resources/regolith
+package-lock.json

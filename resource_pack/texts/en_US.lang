@@ -1,0 +1,51 @@
+pack.name=Insect Titans! RP
+pack.description=Insect Titans!
+
+item.dest:wall_builder=§bWall Builder
+item.dest:building_gadged=§bBuilding Gadged
+
+selection.start.message=§h§lPick Your Locations! Sneak and Click for deselecting current positions.
+selection.focusLost.message1=§nYou are no longer holding selection tool...
+selection.focusLost.message2=§nYou are no longer holding building tool...
+selection.onselect.message1=§hSelected position 1 is
+selection.onselect.message2=§hSelected position 2 is
+selection.onclear.message=§hPositions are deselected...
+selection.same.message=§nYou cant set two same positions
+selection.small.message=§nThe distance from the previous position is too small, try again.
+selection.cantBuil.message=§nYou cant build here...
+
+tower.type.mage.name=Mage Tower
+tower.type.archer.name=Archer Tower
+
+gameplay.notCoins=§mYou don't have enough money, you need another
+
+construction.progress=§hConstruction is still in progress...
+construction.started=§aConstruction of your wall has start...
+construction.done=§aConstruction of your wall has finish...
+
+%selection.cantBuild.message=§tYou cant select position here, you are too close to buildings
+
+form.tools_abilities.title=§tYour Informations & Abilities
+form.ability.title=§tAbilities
+form.tools.title=§tTools
+
+form.wallBuild.dropdown=§hSelect Wall Level
+form.pickTower.title=§tSelect Tower To Build
+form.pickTower.dropdown=§hTower Type
+form.tower.title=§tTower Informations
+form.towers.title=§tTowers
+
+form.settings.title=§tMenu
+form.settings.Body=§h
+
+form.confirm.body.deleteTower=§4Are you sure you want to delete this tower?
+form.confirm.title=§l§tThe Confirmation
+form.confirm.button=§l§2Confirm
+
+form.info.title=§l§sThe Information
+
+from.delete=§c§l-<(== Delete ==)>-
+form.upgrade=§2§lUpgrade
+form.close=§4§lClose
+form.back=§4§lBack
+form.ok=§u§lOK
