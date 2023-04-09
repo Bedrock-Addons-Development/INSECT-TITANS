@@ -18,3 +18,5 @@
  - Schwerty
  - iBlqzed
  - Herobrine64
+
+### [The MIT LICENSE](./LICENSE)
