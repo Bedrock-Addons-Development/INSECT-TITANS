@@ -1,5 +1,5 @@
 import { MinecraftBlockTypes, BlockPermutation } from "@minecraft/server";
-import * as UT from "utilities/import.js";
+import * as UT from "wrapper/utilities/import.js";
 
 const {
     WallDefiniton, 

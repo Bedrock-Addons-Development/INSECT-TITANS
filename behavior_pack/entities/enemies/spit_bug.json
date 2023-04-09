@@ -50,8 +50,8 @@
 				"avoid_damage_blocks": false
 			},
 			"minecraft:follow_range": {
-				"value": 256,
-				"max": 256
+				"value": 30,
+				"max": 30
 			},
 			"minecraft:behavior.melee_attack": {
 				"priority": 3

@@ -1,6 +1,6 @@
 import { Vector } from "@minecraft/server"
 import { asyncTimeout } from "../../centipede/boss"
-import { ImpulseParticlePropertiesBuilder } from "../../../utils"
+import { ImpulseParticlePropertiesBuilder } from "wrapper"
 
 class Home {
     static structures = {

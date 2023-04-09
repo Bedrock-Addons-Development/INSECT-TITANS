@@ -1,4 +1,4 @@
-import { GameDatabase, TowerElement } from "utils.js";
+import { GameDatabase, TowerElement } from "wrapper";
 import { promise } from './base.js';
 
 const {scoreboard} = world;

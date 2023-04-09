@@ -1,4 +1,4 @@
-import { MenuFormData } from "utils.js";
+import { MenuFormData } from "wrapper.js";
 import { MainMenu } from "./default.js";
 import { Enchantment, EquipmentSlot, MinecraftEnchantmentTypes, Player } from "@minecraft/server";
 import { InitInventory } from "../player/default.js";

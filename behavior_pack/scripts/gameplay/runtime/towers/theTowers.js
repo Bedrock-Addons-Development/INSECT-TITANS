@@ -1,6 +1,6 @@
 import { EffectType, Entity, EntityDamageCause, EntityScaleComponent, MinecraftEffectTypes, Player, Vector } from "@minecraft/server";
 import { ArcherTowerAbilities, MageTowerAbilities, TowerAbilityInformations, TowerDefaultAbilities, TowerTypes } from "resources";
-import { ImpulseParticlePropertiesBuilder, RadiusArea, TowerElement } from "utils";
+import { ImpulseParticlePropertiesBuilder, RadiusArea, TowerElement } from "wrapper";
 
 const defualtQuery = {families:['enemy'],excludeTypes:['dest:centipede_tail','dest:centipede_body']};
 export async function InitTowers(){

@@ -1,5 +1,5 @@
 import { promise } from "./base.js";
-import { ScoreboardMap } from "utils.js";
+import { ScoreboardMap } from "wrapper";
 import { InfoMapProperties } from "resources.js";
 
 const gameplay = "gameplay";

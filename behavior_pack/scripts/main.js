@@ -1,7 +1,6 @@
-import './extensions/import.js';
+import './wrapper';
 import "./global.js"
 import './gameplay/index.js';
-
 //conmaster
 //dingsel
 //m9

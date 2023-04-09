@@ -2,7 +2,7 @@ import { InfoMapProperties, MenuItemStacks, Textures, WallLevels } from "resourc
 import { EventTypes, MainMenu, clearAction, setAction, setItem } from "./default.js";
 import { ModalFormData } from "@minecraft/server-ui";
 import { MinecraftBlockTypes, MolangVariableMap, Vector } from "@minecraft/server";
-import { buildWall } from "gameplay/building/import.js";
+import { buildWall } from "wrapper";
 
 /* Settings Registration */
 MainMenu.WallBuilder = {

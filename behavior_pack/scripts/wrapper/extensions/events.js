@@ -1,5 +1,5 @@
 import { Events, SystemEvents, system } from "@minecraft/server";
-import { EventSignal } from "utilities/EventSignal.js";
+import { EventSignal } from "wrapper/utilities/EventSignal.js";
 
 const gameInitialize = new EventSignal();
 const tickEvent = new EventSignal();

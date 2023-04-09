@@ -6,7 +6,11 @@
             "is_spawnable": true,
             "is_summonable": true
         },
-        "component_groups": {},
+        "component_groups": {
+			"dest:despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
         "components": {
             "minecraft:knockback_resistance": {
                 "value": 1
@@ -29,8 +33,33 @@
             },
             "minecraft:scale": {
                 "value": 1.5
+            },
+            "minecraft:interact":{
+                "interactions":[
+                    {
+                        "cooldown":3,
+                        "interact_text": "Information",
+                        "on_interact":{
+                            "filters": {
+                                "test": "is_family",
+                                "subject": "other",
+                                "value": "player"
+                            },
+                            "target":"other",
+                            "event": "dest:mark_interact"
+                        }
+                    }
+                ]   
             }
         },
-        "events": {}
+        "events": {
+            "dest:despawn": {
+                "add": {
+                    "component_groups": [
+                        "dest:despawn"
+                    ]
+                }
+            }
+        }
     }
 }

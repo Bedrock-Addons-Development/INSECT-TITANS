@@ -1,4 +1,4 @@
-import { GameDatabase, ScoreboardMap, SessionGameElement, SafeAreas, RadiusArea } from 'utils';
+import { GameDatabase, ScoreboardMap, SessionGameElement, SafeAreas, RadiusArea } from 'wrapper';
 import config from 'config.js';
 import { InfoMapProperties } from 'resources';
 

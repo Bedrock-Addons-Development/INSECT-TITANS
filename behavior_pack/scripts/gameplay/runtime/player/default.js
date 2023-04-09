@@ -3,7 +3,7 @@ import {
     EquipmentSlot, ItemStack, ItemLockMode, MinecraftBlockTypes 
  } from "@minecraft/server";
 import { InfoMapProperties, InventoryItems, ItemModifiers, MenuItemStacks, PlayerDynamicProperties, ToolSlot, ToolSlots, centerLocation } from "resources";
-import { deathScreen } from "utils";
+import { deathScreen } from "wrapper";
 
 const { config: { 
     default_spawn_point: spawnPoint, 

@@ -1,4 +1,4 @@
-import { BlockType, world, Vector } from "@minecraft/server";
+import { Vector } from "@minecraft/server";
 import { level_1 } from "resources/wall_definitions";
 
 export async function buildWall(from, to, wallDefinition = level_1, dimension = world.overworld) {
@@ -30,8 +30,6 @@ async function place(definition = level_1, base, d = world.overworld, direction,
         await null;
     }
 }
-
-
 function placeLayer(loc, direction, dimension, layer){
     dimension.setBlock(loc, layer.middle.getBlock(direction));
     const {x,y,z} = loc;
@@ -48,10 +46,6 @@ function placeLayer(loc, direction, dimension, layer){
         dimension.setBlock(n,block.getBlock(direction));
     }
 }
-
-
-
-
 function getDirection({x:x1,y:y1,z:z1}, {x:x2,y:y2,z:z2}){
     const {x,z} = new Vector(x2-x1, y2-y1, z2-z1).normalized();
     return Math.abs(z) > Math.abs(x)?(z > 0 ? "forward":"backward"):(x > 0?"left":"right");

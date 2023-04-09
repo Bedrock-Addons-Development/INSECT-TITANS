@@ -1,7 +1,7 @@
 import { Block, MinecraftBlockTypes, Player, Vector } from "@minecraft/server";
 import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
 import { InfoMapProperties, MenuItemStacks, Textures, TowerTypes, TowerNames, TowerStructureDefinitions, TowerDefaultAbilities, TowerCost, TowerAbilityInformations, StructureSizes, MageTowerLevelStructure, ArcherTowerAbilities, MageTowerAbilities, TowerAbilities } from "resources";
-import { SquareParticlePropertiesBuilder, TowerElement,MenuFormData } from "utils";
+import { SquareParticlePropertiesBuilder, TowerElement,MenuFormData } from "wrapper";
 import { EventTypes, MainMenu, clearAction, defualtSlot, setAction, setItem } from "./default";
 
 

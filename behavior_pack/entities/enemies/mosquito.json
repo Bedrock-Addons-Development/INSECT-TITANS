@@ -10,7 +10,7 @@
 			"minecraft:behavior.nearest_attackable_target": {
 				"priority": 1,
 				"reselect_targets": true,
-				"within_radius": 256.0,
+				"within_radius": 50.0,
 				"scan_interval": 200,
 				"entity_types": [
 					{
@@ -24,7 +24,7 @@
 								}
 							]
 						},
-						"max_dist": 256
+						"max_dist": 50
 					},
 					{
 						"priority": 0,
@@ -50,8 +50,8 @@
 				"can_path_over_water": true
 			},
 			"minecraft:follow_range": {
-				"value": 256,
-				"max": 256
+				"value": 30,
+				"max": 30
 			},
 			"minecraft:behavior.melee_attack": {
 				"priority": 3
@@ -73,7 +73,7 @@
 			"minecraft:jump.static": {},
 			"minecraft:can_fly": {},
 			"minecraft:scale": {
-				"value": 1.0
+				"value": 2.0
 			},
 			"minecraft:is_hidden_when_invisible": {},
 			"minecraft:type_family": {
@@ -82,7 +82,6 @@
 					"flying"
 				]
 			},
-
 			"minecraft:physics": {},
 			"minecraft:pushable": {
 				"is_pushable": true,

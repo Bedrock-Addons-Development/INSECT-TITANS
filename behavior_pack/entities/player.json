@@ -122,7 +122,7 @@
 				"is_pushable_by_piston": true
 			},
 			"minecraft:insomnia": {
-				"days_until_insomnia": 3
+				"days_until_insomnia": 999
 			},
 			"minecraft:rideable": {
 				"seat_count": 2,
@@ -167,7 +167,7 @@
 								}
 							]
 						},
-						"event": "dest:start_game"
+						"event": "dest:in_portal"
 					},
 					{
 						"filters": {
@@ -190,7 +190,8 @@
 			}
 		},
 		"events": {
-			"dest:start_game": {},
+            "dest:mark_interact":{},
+			"dest:in_portal": {},
 			"minecraft:gain_bad_omen": {
 				"add": {
 					"component_groups": [

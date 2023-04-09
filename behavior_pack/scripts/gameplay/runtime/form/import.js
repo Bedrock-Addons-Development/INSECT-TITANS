@@ -2,7 +2,7 @@ import './abilities.js';
 import './Towers.js';
 import './wallBuilder.js';
 import {EventTypes, IsBusy, MainMenu, SetBusy, ValidItemStack, runAction, setDefaultAction} from './default.js';
-import { MenuFormData } from 'utils.js';
+import { MenuFormData } from 'wrapper.js';
 
 events.beforeItemUse.subscribe(ev=>run(ev.source,ev,EventTypes.beforeItemUse).catch(errorHandle));
 events.beforeItemUseOn.subscribe(ev=>run(ev.source,ev,EventTypes.beforeItemUseOn).catch(errorHandle));
