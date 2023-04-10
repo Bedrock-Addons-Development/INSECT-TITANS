@@ -5,6 +5,9 @@ export function* deathScreen(center,r=175,angle = 15){
     while(true) for (let loc of MovingPath(r * (Math.random()+0.5),angle * 15,angle,Math.random()*360,(Math.random()-0.5)/20,(Math.random()>=0.5)?1:-1).offSet(Vector.add(center,{x:0,y:Math.random()*20 + 10,z:0}))) yield loc;
 }
 
+/**
+ * @returns {Generator<import('@minecraft/server').Vector3>}
+ */
 export function* MovingPath(radius = 30, steps = 1,angle = 360, offset=0, motion=0, direction = 1){
     const max = angle*Math.PI / 180;
     const ofset = offset*Math.PI/180;

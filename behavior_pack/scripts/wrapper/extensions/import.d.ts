@@ -3,23 +3,19 @@ import { TowerDefenition } from "../gameplay/building/towers"
 
 declare module "@minecraft/server" {
     namespace Enchantment {
-        var Custom: {
-            [key: string]: { [key: number]: Enchantment }
-        }
+        var Custom: {[key: string]: { [key: number]: Enchantment }}
     }
     interface Entity {
         readonly inventory?: EntityInventoryComponent;
         readonly container?: Container;
         readonly armor?: EntityEquipmentInventoryComponent;
         health: number;
-        cd: number;
         scale: number;
-        readonly maxHealth?: number;
+        getMaxHealth():?number;
         readonly viewBlock?: Block;
         readonly viewEntities: Entity[];
         readonly scores: { [key: string]: number };
         readonly isValidHandle: boolean;
-        updateHealths(): void
     }
     interface Container extends IterableIterator<ContainerSlot>{
         [Symbol.iterator](): Generator<ContainerSlot>
@@ -28,13 +24,9 @@ declare module "@minecraft/server" {
         mainhand: ContainerSlot;
         getGameMode(): GameMode;
         setGameMode(gamemode: Gamemode): Promise<CommandResult>;
-        selectedTower?: TowerDefenition;
         readonly isOnline: boolean;
         confirm(body:string, title?:string): Promise<boolean>
         info(body: string, title?: string): Promise<ActionFormResponse>
-        sendTip(message: string, timeout?: number): void
-        getTips(): ({content:string,timeout:number})[]
-        setTips(tips: ({content:string,timeout:number})[]): void
         blueXp: number;
         armorLevel: number;
         swordLevel: number;
@@ -47,29 +39,18 @@ declare module "@minecraft/server" {
         readonly theEnd: Dimension;
         time: number;
         find(entity: Entity, query: EntityQueryOptions): Entity | false;
-        db: Array<structureEntry>;
-        round : number
     }
-    interface System {
-        readonly nextTick: Promise
-    }
-    interface Dimension {
-        setBlock(location: Vector3, type: BlockType | BlockPermutation): number
-    }
+    interface System {readonly nextTick: Promise}
+    interface Dimension {setBlock(location: Vector3, type: BlockType | BlockPermutation): number}
     interface Block {
         readonly canBeWaterlogged: boolean;
         readonly inventory?: BlockInventoryComponent;
         readonly container?: BlockInventoryComponentContainer;
-        setTo(type: mc.BlockType | mc.BlockPermutation): void
-
+        setBlock(type: mc.BlockType | mc.BlockPermutation): void
     }
     interface ItemStack {
         enchantments: EnchantmentList;
         damage: number;
-        setLockMode(lock: ItemLockMOde): this;
-        setNameTag(name: string): this;
-        setKeepOnDeath(keep: boolean): this;
-        setCanDestroy(blockTypes: string[]): this;
     }
     interface SystemEvents {
         readonly gameInitialize: EventSignal;
@@ -115,7 +96,38 @@ declare global {
     var run: PromiseConstructor['prototype']['then'];
     var objectives: (key: string, remove?:boolean|undefined)=> mc.ScoreboardObjective ;
     var sleep: (delay: number) => Promise<void>;
-    var tier: number
+    function runCommandAsync(command: string): Promise<CommandResult>;
+    interface Object {
+        formatXYZ(): string;
+    }
+    interface Symbol {
+        static isGenerator: Symbol
+    }
+    interface Date {
+        toHHMMSS(): string
+    }
+    interface Math {
+        rad(deg: number): number
+        deg(rad: number): number
+        randomBetween(max: number, min?: number): number
+    }
+    interface NumberConstructor {
+        unitTypes: string[]
+        createUID(): number
+    }
+    interface Number {
+        unitFormat(place?: number, space?: string,exponent:?number,component?:number): string,
+        floor(): number,
+        toHHMMSS(): string
+    }
+    interface Array<T> {
+        readonly randomElement: T,
+        readonly x:number,
+        readonly y:number,
+        readonly z:number,
+        remove(element: any): this;
+        removeAll(element: any): this;
+    }
     interface Generator<T = unknown, TReturn = any, TNext = unknown> extends Iterator<T, TReturn, TNext> {
         // NOTE: 'next' is defined using a tuple to ensure we report the correct assignability errors in all places.
         next(...args: [] | [TNext]): IteratorResult<T, TReturn>;
@@ -255,42 +267,6 @@ declare global {
         (): Promise
         readonly prototype: Promise
     }
-    interface Object {
-        static clone(arg: any): object;
-        static clear<T extends object>(arg: T): T;
-        static addPrototypeOf<T extends object>(arg: T, proto: object): T;
-        static applyOwnGetters<T extends object>(ownGetters: object, source: T): T;
-        formatXYZ(): string;
-    }
-    interface Symbol {
-        static isGenerator: Symbol
-    }
-    interface Date {
-        toHHMMSS(): string
-    }
-    interface Math {
-        rad(deg: number): number
-        deg(rad: number): number
-        randomBetween(max: number, min?: number): number
-    }
-    interface NumberConstructor {
-        unitTypes: string[]
-        createUID(): number
-    }
-    interface Number {
-        unitFormat(place?: number, space?: string,exponent:?number,component?:number): string,
-        floor(): number,
-        toHHMMSS(): string
-    }
-    interface Array<T> {
-        readonly randomElement: T,
-        readonly x:number,
-        readonly y:number,
-        readonly z:number,
-        remove(element: any): this;
-        removeAll(element: any): this;
-    }
-    function runCommand(command: string): Promise<CommandResult>;
 }
 type EventSignal<arguments = []> = {
     trigger(...params: arguments): Promise<number>

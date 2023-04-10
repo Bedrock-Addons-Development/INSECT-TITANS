@@ -17,7 +17,11 @@ const global = {
     get stone() { return this.infoMap.get(InfoMapProperties.stones) },
     set stone(v) { return this.infoMap.set(InfoMapProperties.stones, v) },
     get wood() { return this.infoMap.get(InfoMapProperties.woods) },
-    set wood(v) { return this.infoMap.set(InfoMapProperties.woods, v) }
+    set wood(v) { return this.infoMap.set(InfoMapProperties.woods, v) },
+    get round() { return this.getDynamicProperty("round") ?? 0 }, 
+    set round(n) { this.setDynamicProperty("round", n) },
+    get hp() { return this.getDynamicProperty("hp") ?? 0 }, 
+    set hp(n) { this.setDynamicProperty("hp", n) }
 };
 globalThis.global = global;
 export { global };

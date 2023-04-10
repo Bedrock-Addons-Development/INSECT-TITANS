@@ -40,13 +40,13 @@ export class ScoreboardMap extends Map{
     }
     /**@param {string} key @param {number?} score @returns {CommandResult}  */
     async addAsync(key, score = 0){
-        const n = await runCommand(`scoreboard players add "${key.replaceAll('"','\\"')}" "$${this.#objective.id}" ${score}`);
+        const n = await runCommandAsync(`scoreboard players add "${key.replaceAll('"','\\"')}" "$${this.#objective.id}" ${score}`);
         this.update();
         return n;
     }
     /**@param {string} key @param {number?} score @returns {CommandResult}  */
     addAsyncNoUpdate(key, score = 0){
-        return runCommand(`scoreboard players add "${key.replaceAll('"','\\"')}" "${this.#objective.id}" ${score}`);
+        return runCommandAsync(`scoreboard players add "${key.replaceAll('"','\\"')}" "${this.#objective.id}" ${score}`);
     }
     update(){
         this.clear();

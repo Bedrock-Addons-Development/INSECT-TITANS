@@ -3,7 +3,7 @@ import {
     EquipmentSlot, ItemStack, ItemLockMode, MinecraftBlockTypes 
  } from "@minecraft/server";
 import { InfoMapProperties, InventoryItems, ItemModifiers, MenuItemStacks, PlayerDynamicProperties, ToolSlot, ToolSlots, centerLocation } from "resources";
-import { deathScreen } from "wrapper";
+import { ItemStackBuilder, deathScreen } from "wrapper";
 
 const { config: { 
     default_spawn_point: spawnPoint, 
@@ -109,7 +109,7 @@ export async function InitInventory(player){
     for (const key of Object.getOwnPropertyNames(InventoryItems)) {
         await nextTick;
         if(!InventoryItems[key][player[InventoryLevels[key]]])continue;
-        const itemStack = new ItemStack(InventoryItems[key][player[InventoryLevels[key]]]).setLockMode(ItemLockMode.slot);
+        const itemStack = new ItemStackBuilder(InventoryItems[key][player[InventoryLevels[key]]]).setLockMode(ItemLockMode.slot);
         if(key in ItemModifiers) ItemModifiers[key](itemStack);
         if(key in EquipmentSlot){
             const {enchantments} = armor.getEquipment(key)??{};

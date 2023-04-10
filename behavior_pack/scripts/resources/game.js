@@ -1,4 +1,5 @@
 import { EquipmentSlot, ItemLockMode, ItemStack, MinecraftBlockTypes, MinecraftItemTypes } from "@minecraft/server";
+import { ItemStackBuilder } from "wrapper";
 
 export const EntityKillReward = {
     "dest:centipede_head": 150,
@@ -36,9 +37,9 @@ export const PlayerDynamicProperties = {
 export const centerLocation = Object.create({x:82,y:100,z:52});
 export const MenuItemNameTag = "§l§hMenu";
 export const CanDestroy = MinecraftBlockTypes.getAllBlockTypes().map(n=>n.id);
-export const HammerItemStack = new ItemStack("dest:hammer").setNameTag(MenuItemNameTag).setKeepOnDeath(true).setLockMode(ItemLockMode.slot).setCanDestroy(CanDestroy)
+export const HammerItemStack = new ItemStackBuilder("dest:hammer").setNameTag(MenuItemNameTag).setKeepOnDeath(true).setLockMode(ItemLockMode.slot).setCanDestroy(CanDestroy)
 export const MenuItemStacks = {
-    Menu: new ItemStack("dest:menu").setNameTag(MenuItemNameTag).setKeepOnDeath(true).setLockMode(ItemLockMode.slot).setCanDestroy(CanDestroy),
+    Menu: new ItemStackBuilder("dest:menu").setNameTag(MenuItemNameTag).setKeepOnDeath(true).setLockMode(ItemLockMode.slot).setCanDestroy(CanDestroy),
     TowerEditor: HammerItemStack,
     WallBuilder: HammerItemStack
 }

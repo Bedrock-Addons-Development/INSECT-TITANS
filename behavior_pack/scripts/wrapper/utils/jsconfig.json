@@ -3,5 +3,5 @@
         "module": "ESNext",
         "target": "ES2022",
     },
-    "files":["import.d.ts"]
+    "files":["index.js"]
 }

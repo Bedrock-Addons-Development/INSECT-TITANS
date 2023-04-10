@@ -1,32 +1,12 @@
 import { ScoreboardIdentityType, ScoreboardObjective } from "@minecraft/server";
+import { PromseHandle } from "./base.js";
+
 
 const sets = new Map();
 const splitKey = '.\n$_';
 const matchRegex = /\.\n\$\_/g;
 const {fakePlayer} = ScoreboardIdentityType;
 const [parse,stringify] = [JSON.parse.bind(JSON),JSON.stringify.bind(JSON)]
-
-
-export class PromseHandle{
-    #promise = Promise.resolve();
-    #id = 0;
-    #map = new Map();
-    release(id){
-        if(!this.#map.has(id)) throw new ReferenceError("Invalid promise id resolved!");
-        const res = this.#map.get(id);
-        this.#map.delete(id);
-        res();
-        return true;
-    }
-    async lock(){
-        const promise = this.#promise;
-        const id = this.#id++;
-        this.#promise = new Promise((res)=>this.#map.set(id,res));
-        await promise;
-        return id;
-    }
-    then(callBack){return this.lock().then(callBack);}
-}
 /**
  * Database
  */

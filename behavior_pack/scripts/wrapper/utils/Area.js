@@ -14,7 +14,6 @@ export class SafeAreas extends Set{
         return true;
     }
 }
-
 export class Area{
     constructor(centerArea){
         this.center = centerArea;

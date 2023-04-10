@@ -1,30 +1,6 @@
 import { ScoreboardObjective } from '@minecraft/server';
+import { DisposableHandle} from './base.js';
 import {Database} from './ObjectiveDatabase.js';
-
-const {scoreboard} = world;
-
-export class DisposableHandle{
-    #disposed;
-    #onUpdate;
-    #onDispose;
-    constructor(onUpdate, onDispose){
-        this.#disposed = false;
-        this.#onUpdate = onUpdate;
-        this.#onDispose = onDispose;
-    }
-    async update(){
-        if(this.isDisposed) throw new ReferenceError("This object handle is disposed, you can´t update it.");
-        return await this.#onUpdate(this);
-    }
-    dispose(){
-        const close = this.#onDispose;
-        this.#disposed = true;
-        this.#onUpdate = undefined;
-        this.#onDispose = undefined; 
-        close?.(this);
-    }
-    get isDisposed(){return this.#disposed};
-}
 
 export class ElementDatabase extends Database{
     #elements;
