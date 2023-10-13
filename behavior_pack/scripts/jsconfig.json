@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+    "compilerOptions":{
         "module": "es2022",
         "target": "ESNext",
         "moduleResolution": "node",
@@ -8,14 +8,12 @@
         "checkJs": false,
         "allowSyntheticDefaultImports": true,
         "baseUrl": ".",
-        "outDir": "./src",
-        "resolveJsonModule": true,
+        "resolveJsonModule": false,
         "strict": true,
         "typeRoots": ["../../node_modules/"],
         "types": [
             "@minecraft/server",
             "@minecraft/server-ui"
         ]
-    },
-    "include": ["./main.js"]
+    }
 }
