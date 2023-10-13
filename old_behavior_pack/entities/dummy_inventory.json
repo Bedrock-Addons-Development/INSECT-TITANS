@@ -52,14 +52,6 @@
 				"allow_name_tag_renaming": false
 			}
 		},
-		"events": {
-			"dest:despawn": {
-				"add": {
-					"component_groups": [
-						"dest:despawn"
-					]
-				}
-			}
-		}
+		"events": {}
 	}
 }
