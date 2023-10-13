@@ -1,1 +1,1 @@
-console.warn("Sus");
+import "./core/index";
