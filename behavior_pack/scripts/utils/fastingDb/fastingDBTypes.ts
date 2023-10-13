@@ -1,3 +1,3 @@
 import { Entity, World } from "@minecraft/server";
 
-type DbStorageType = World | Entity
+export type DbStorageType = World | Entity

@@ -1,4 +1,4 @@
-import { World } from "@minecraft/server";
+import { World, world } from "@minecraft/server";
 const maxPropertyLength = 32767;
 
 export class FastingDB {
@@ -11,7 +11,7 @@ export class FastingDB {
 
     /** @param {import("./fastingDBTypes").DbStorageType} storageType */
     constructor(storageType = world) {
-        this.storageType = storageType
+        this.storageType = storageType;
         this.__id = (storageType instanceof World) ? "WORLD_db_" : storageType.id + "_db_"
     }
 
@@ -22,8 +22,7 @@ export class FastingDB {
      * @returns {Array<string>}
      */
     getPropertyIds(key = undefined) {
-        const { getPropertyIdsFromCache, filtered } = this
-        return filtered(getPropertyIdsFromCache(), key)
+        return this.filtered(this.getPropertyIdsFromCache(), key)
     }
 
     /**
@@ -31,9 +30,8 @@ export class FastingDB {
      * @private 
      **/
     updateCache() {
-        const { cache, storageType } = this
-        const allProps = storageType.getDynamicPropertyIds()
-        cache.set("ids", allProps)
+        const allProps = this.storageType.getDynamicPropertyIds()
+        this.cache.set("ids", allProps)
         return allProps
     }
 
@@ -43,9 +41,8 @@ export class FastingDB {
      * @returns {Array<string>}
      */
     getPropertyIdsFromCache() {
-        const { cache, updateCache } = this
-        if (cache.has("ids")) return cache.get("ids")
-        return updateCache()
+        if (this.cache.has("ids")) return this.cache.get("ids")
+        return this.updateCache()
     }
 
     /**
@@ -65,9 +62,9 @@ export class FastingDB {
      */
     get(key) {
         const storages = this.getPropertyIds(key)
-        if (storages.length === 1) return JSON.parse(storages[0])
+        if (storages.length === 1) return JSON.parse(this.storageType.getDynamicProperty(storages[0]))
         return JSON.parse(storages.reduce((prev, curr) => {
-            prev += curr
+            prev += this.storageType.getDynamicProperty(curr)
             return prev
         }, ""))
     }
@@ -77,7 +74,7 @@ export class FastingDB {
      * @param {any} value 
      */
     set(key, value) {
-        const { storageType, __id, updateCache } = this
+        const { storageType, __id } = this
         const data = JSON.stringify(value)
 
         let propertyCount = 0;
@@ -86,7 +83,7 @@ export class FastingDB {
             storageType.setDynamicProperty(__id + key + propertyCount, chunk)
             propertyCount++
         }
-        updateCache()
+        this.updateCache()
         return this
     }
 
