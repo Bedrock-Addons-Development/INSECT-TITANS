@@ -88,46 +88,44 @@ export class FastingDB {
     }
 
     clear() {
-        const { storageType, updateCache, getPropertyIds } = this
-        getPropertyIds().forEach((property) => storageType.setDynamicProperty(property))
-        updateCache()
+        const { storageType } = this
+        this.getPropertyIds().forEach((property) => storageType.setDynamicProperty(property))
+        this.updateCache()
     }
 
     /**
      * @param {string} key
      */
     delete(key) {
-        const { storageType, updateCache, getPropertyIds } = this
-        const props = getPropertyIds(key)
+        const { storageType } = this
+        const props = this.getPropertyIds(key)
         if (props.length === 0) return false
         props
             .forEach((property) => storageType.setDynamicProperty(property))
-        updateCache()
+        this.updateCache()
         return true
     }
 
     get size() {
-        const { getPropertyIds } = this
-        return getPropertyIds().length
+        return this.getPropertyIds().length
     }
 
     *entries() {
-        const { __id, get, getPropertyIds } = this
-        const props = getPropertyIds()
+        const { __id } = this
+        const props = this.getPropertyIds()
         /** @type {string[]}*/
         const keys = []
         for (const prop of props) {
             const key = prop.substring(__id.length)
             if (keys.includes(key)) continue
             keys.push(key)
-            yield get(key)
+            yield this.get(key)
         }
     }
 
     /** @param {string} key*/
     has(key) {
-        const { getPropertyIds } = this
-        return !!getPropertyIds(key)
+        return !!this.getPropertyIds(key)
     }
 
     forEach() {
