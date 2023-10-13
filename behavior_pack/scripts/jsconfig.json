@@ -1,11 +1,21 @@
 {
     "compilerOptions": {
-        "module": "CommonJS",
+        "module": "es2022",
+        "target": "ESNext",
+        "moduleResolution": "node",
+        "downlevelIteration": true,
+        "allowJs": true,
+        "checkJs": false,
+        "allowSyntheticDefaultImports": true,
         "baseUrl": ".",
-        "target": "ES2022",
-        "skipLibCheck": false,
+        "outDir": "./src",
+        "resolveJsonModule": true,
         "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "esModuleInterop": true,
-    }
+        "typeRoots": ["../../node_modules/"],
+        "types": [
+            "@minecraft/server",
+            "@minecraft/server-ui"
+        ]
+    },
+    "include": ["./main.js"]
 }

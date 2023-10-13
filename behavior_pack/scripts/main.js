@@ -1,8 +1,2 @@
-import './wrapper';
-import "./global.js"
-import './gameplay/index.js';
-//conmaster
-//dingsel
-//m9
-//iblqzed
-//Schwerty
+import "con-api";
+import "INSEC-TITANS/index";
