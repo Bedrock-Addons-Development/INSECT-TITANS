@@ -1121,7 +1121,13 @@ declare global {
         readonly isNotThenble: unique symbol
         readonly thenable: unique symbol
     }
-    interface Console{[Symbol.toStringTag]: "Console"}
+    interface Console{
+        error(...data: any[]): void;
+        info(...data: any[]): void;
+        log(...data: any[]): void;
+        warn(...data: any[]): void;
+		[Symbol.toStringTag]: "Console"
+	}
     interface Generator<T = unknown, TReturn = any, TNext = unknown>{readonly [Symbol.isGenerator]: true}
     interface AsyncGenerator{readonly [Symbol.isAsyncGenerator]: true, readonly [Symbol.isGenerator]: true}
     interface GeneratorFunction{isGenerator(gen: object): gen is Generator; Run(generator: any): PromiseLike<any>}

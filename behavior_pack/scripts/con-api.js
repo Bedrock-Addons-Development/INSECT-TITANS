@@ -217,7 +217,7 @@ class Kernel{
         else return false;
     }
     static SetGlobalThis(){
-        GlobalModification();
+        GlobalModification();//???
     }
     static __globalThis = globalThis;
 }
@@ -1061,7 +1061,7 @@ class Stream extends DataView{
         const BYTES_PER_ELEMENT = base / 8, property ="setUint" + base;
         if(text.length * BYTES_PER_ELEMENT > bufferLength) throw new RangeError("Can't fit text to specified buffer, please increase buffer length");
         const typedArray = new DataView(new ArrayBuffer(bufferLength));
-        if(!property in typedArray) throw new Error("Invalid base: " + base);
+        if(!(property in typedArray)) throw new Error("Invalid base: " + base);
         for (let i = 0; i < text.length; i++) typedArray[property](i*BYTES_PER_ELEMENT,String.prototype.charCodeAt.call(text,i) - 1);
         const a = new this(typedArray.buffer,...params);
         a.__size__ = text.length * BYTES_PER_ELEMENT;
@@ -1071,7 +1071,7 @@ class Stream extends DataView{
     static toString(stream, base=16){
         const BYTES_PER_ELEMENT = base / 8, property ="getUint" + base;
         const codes = [];
-        if(!property in stream) throw new Error("Invalid base: " + base);
+        if(!(property in stream)) throw new Error("Invalid base: " + base);
         for (let i = 0; i < stream.size; i+=BYTES_PER_ELEMENT) codes.push(1 + stream[property](i));
         return String.fromCharCode.apply(String,codes);
     }
@@ -1096,7 +1096,7 @@ class BinaryStreamWriter extends Stream{
     }
     writeString(text, base = 8){
         const property = "writeUint" + base;
-        if(!property in this) throw new Error("Invalid base: " + base);
+        if(!(property in this)) throw new Error("Invalid base: " + base);
         let out = 0;
         for (let i = 0; i < text.length; i++) out+= this[property](String.prototype.charCodeAt.call(text,i));
         return out;
@@ -1179,7 +1179,7 @@ class BinaryStreamReader extends Stream{
     readString(length=0, base = 8){
         const BYTES_PER_ELEMENT = base / 8, property = "readUint" + base;
         if((length*BYTES_PER_ELEMENT) + this.offset > this.byteLength) length = Math.floor((this.byteLength - this.offset)/BYTES_PER_ELEMENT);
-        if(!property in this) throw new Error("Invalid base: " + base);
+        if(!(property in this)) throw new Error("Invalid base: " + base);
         let data = [];
         for (let i = 0; i < length; i++) data.push(this[property]());
         return String.fromCharCode.call(String,...data);
@@ -1390,7 +1390,7 @@ class NBT{
         NBT.WriteNBT(object,o);
         return o.toString();
     }
-    /**@param {any} object @param {NBTReaderOptions?} options */
+    /**@param {string} string @param {NBTReaderOptions?} options */
     static parse(string,options){
         let stream = NBTStreamReader.fromString(string,null,options??new NBTReaderOptions());
         return NBT.ReadNBT(stream);
@@ -1509,7 +1509,7 @@ class ScoreboardDatabaseManager extends Map{
         this._nameId_ = objective;
         this.interval = interval??5;
         if(!objective) throw new RangeError("Firt parameter si not valid: " + objective);
-        if(typeof objective !== "string" && !objective instanceof server_namespaceObject.ScoreboardObjective) throw new RangeError("Firt parameter si not valid: " + objective);
+        if(typeof objective !== "string" && !(objective instanceof server_namespaceObject.ScoreboardObjective)) throw new RangeError("Firt parameter si not valid: " + objective);
         this._scoreboard_ = typeof objective === "string"?(scoreboard.getObjective(objective)??scoreboard.addObjective(objective,objective)):objective;
         this._nameId_ = this.id;
         this._source_ = new Map();
@@ -2202,10 +2202,10 @@ OverTakes(server_ui_namespaceObject.FormResponse.prototype, {
 
 class FormData {
     async forceShow(player) {
+        const busy = server_ui_namespaceObject.FormCancelationReason.UserBusy;
         do {
             const value = await this.show(player);
-            if (value.cancelationReason !== server_ui_namespaceObject.FormCancelationReason.UserBusy)
-                return value;
+            if (value.cancelationReason !== busy) return value;
         } while (true);
     }
     async show(player) { return Promise.resolve(); }
