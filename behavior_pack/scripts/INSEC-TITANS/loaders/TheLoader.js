@@ -6,7 +6,7 @@ export class Loader{
         game.onInitialize.subscribe(()=>this.start());
     }
     /**@returns {Promise<any[]>} */
-    start(){
+    async start(){
         const tasks = [];
         for (const method of this.methods) tasks.push((async ()=>method(game))().catch(displayError));
         const data = await Promise.all();
