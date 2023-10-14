@@ -5,7 +5,7 @@
         "description": "pack.description",
         "uuid": "9a5e17d3-8c17-4f5c-83c9-c1177ac988ec",
         "min_engine_version": [1,20,50],
-        "version": [1,1,0]
+        "version": "2.0.0-alpha"
     },
     "modules": [
         {
@@ -22,6 +22,7 @@
     ],
     "dependencies": [
         {"module_name": "@minecraft/server","version": "1.8.0-beta"},
-        {"module_name": "@minecraft/server-ui","version": "1.2.0-beta"}
+        {"module_name": "@minecraft/server-ui","version": "1.2.0-beta"},
+        {"uuid":"9c00a4cc-63c9-4ada-92b6-56fbad7f1a2f", "version":"2.0.0-alpha"}
     ]
 }

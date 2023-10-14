@@ -1,2 +1,2 @@
 export * from './centipede.js';
-export * from './boss'
+export * from './boss.js'

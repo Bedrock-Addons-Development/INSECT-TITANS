@@ -72,7 +72,7 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 ;// CONCATENATED MODULE: ./src/initialization.js
-console.warn(`§h§lCon-API Loading
+console.log(`§h§lCon-API Loading
 §l§hMIT License§r§7
 Copyright (c) 2023 Con JS Development`);
 const loadTime = Date.now();
@@ -2259,7 +2259,7 @@ OverTakes(globalThis,{
 
 
 
-console.warn("§h§lCon-API Loaded in  ~" + (Date.now() - loadTime) + "ms");
+console.log("§h§lCon-API Loaded in  ~" + (Date.now() - loadTime) + "ms");
 
 var __webpack_exports__AsyncFunctionConstructor = __webpack_exports__.AZ;
 var __webpack_exports__AsyncGeneratorFunction = __webpack_exports__.EN;
