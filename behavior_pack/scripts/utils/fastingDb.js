@@ -1,5 +1,5 @@
-import { World, world } from "@minecraft/server";
-const maxPropertyLength = 32767;
+import { World, world, Entity } from "@minecraft/server";
+const maxPropertyLength = 32000;
 
 export class FastingDB {
     /**@private */
@@ -8,8 +8,7 @@ export class FastingDB {
     __id;
     /**@private */
     cache = new Map();
-
-    /** @param {import("./fastingDBTypes").DbStorageType} storageType */
+    /** @param {World | Entity | undefined} storageType */
     constructor(storageType = world) {
         this.storageType = storageType;
         this.__id = (storageType instanceof World) ? "WORLD_db_" : storageType.id + "_db_"
@@ -24,7 +23,6 @@ export class FastingDB {
     getPropertyIds(key = undefined) {
         return this.filtered(this.getPropertyIdsFromCache(), key)
     }
-
     /**
      * Rebuilds The Property Id Cache System
      * @private 
@@ -34,7 +32,6 @@ export class FastingDB {
         this.cache.set("ids", allProps)
         return allProps
     }
-
     /**
      * Returns Property IDs From The DB From The Cache And Rebuilds The Cahce If No Cached Data Exists
      * @private
@@ -44,7 +41,6 @@ export class FastingDB {
         if (this.cache.has("ids")) return this.cache.get("ids")
         return this.updateCache()
     }
-
     /**
      * Returns An Array Of Elements Where Each Element Has To Start With The Entities Id And An Optional Key
      * @private
@@ -56,7 +52,6 @@ export class FastingDB {
         const { __id } = this
         return key ? val.filter(x => x.startsWith(__id + key)) : val.filter(x => x.startsWith(__id))
     }
-
     /**
      * @param {string} key 
      */
@@ -105,11 +100,9 @@ export class FastingDB {
         this.updateCache()
         return true
     }
-
     get size() {
         return this.getPropertyIds().length
     }
-
     *entries() {
         const { __id } = this
         const props = this.getPropertyIds()
@@ -122,20 +115,16 @@ export class FastingDB {
             yield this.get(key)
         }
     }
-
     /** @param {string} key*/
     has(key) {
         return !!this.getPropertyIds(key)
     }
-
     forEach() {
         throw new Error("Method Not Implemented.")
     }
-
     keys() {
         throw new Error("Method Not Implemented.")
     }
-
     values() {
         throw new Error("Method Not Implemented.")
     }

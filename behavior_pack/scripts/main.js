@@ -1,7 +1,7 @@
 import "con-api";
 import "INSEC-TITANS/index";
 import "global"
-import { FastingDB } from "utils/fastingDb/fastingDb";
+import { FastingDB } from "utils/fastingDb";
 
 const db = new FastingDB()
 
