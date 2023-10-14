@@ -1,10 +1,9 @@
-import {FormResponse, ModalFormResponse} from '@minecraft/server-ui';
+import { FormResponse, ModalFormResponse } from '@minecraft/server-ui';
 
 Object.defineProperties(FormResponse.prototype, {
-    output:{
-        get(){
-            if(this instanceof ModalFormResponse) return this.formValues;
-            return this.selection;
+    output: {
+        get() {
+            return (this instanceof ModalFormResponse) ? this.formValues : this.selection;
         }
     }
 });

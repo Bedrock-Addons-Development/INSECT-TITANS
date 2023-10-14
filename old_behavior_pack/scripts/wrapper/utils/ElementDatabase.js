@@ -5,7 +5,7 @@ import {Database} from './ObjectiveDatabase.js';
 export class ElementDatabase extends Database{
     #elements;
     constructor(objective){
-        if(typeof objective == 'string') objective = objectives(objective);
+        if(typeof objective == 'string') objective = getObjective(objective);
         if(!objective instanceof ScoreboardObjective) throw new TypeError("Is not instanceof of ScoreboardObjective");
         super(objective);
         this.#elements = new Map();
@@ -30,7 +30,7 @@ export class ElementDatabase extends Database{
     async delete(elementId){
         if(this.#elements.has(elementId)) {
             this.#elements.get(elementId).dispose();
-            this.#elements.delete(elementId);
+            return this.#elements.delete(elementId);
         }
         return super.delete(elementId);
     }

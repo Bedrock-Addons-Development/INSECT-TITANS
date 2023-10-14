@@ -1,5 +1,5 @@
 import { Player } from "@minecraft/server"
-const { max, min, round } = Math;
+
 
 export class EventSignal{
     #methods = {};
@@ -90,7 +90,7 @@ export class BossBarBuilder {
     #fill2 = 0
     constructor(useSecondary = false) {
         this.useSecondary = useSecondary
-        this.update()
+        this.#update()
     }
     /** 
      * @param {number} percentage A number between 0 and 100.
@@ -119,12 +119,13 @@ export class BossBarBuilder {
     }
     /** @private*/
     #update() {
-        let { useSecondary } = this, fill = this.#fill, chars = this.#chars, fill2 = this.#fill2;
+        const { max, min, round } = Math
+        let fill = this.#fill, chars = this.#chars, fill2 = this.#fill2;
         fill = min(max(0, fill), 100)
         const fullChars = round(chars * ((5 >= fill && fill != 0) ? 5 : fill) / 100)
         const emptyChars = chars - fullChars
 
-        if (useSecondary) {
+        if (this.useSecondary) {
             fill2 = min(max(0, fill2), 100)
             const fullChars2 = round(chars * ((5 >= fill2 && fill2 != 0) ? 5 : fill2) / 100)
             const emptyChars2 = chars - fullChars

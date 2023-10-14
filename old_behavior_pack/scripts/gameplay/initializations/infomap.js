@@ -3,7 +3,7 @@ import { ScoreboardMap } from "wrapper";
 import { InfoMapProperties } from "resources.js";
 
 const gameplay = "gameplay";
-const objective = objectives(gameplay);
+const objective = getObjective(gameplay);
 
 
 async function init() {

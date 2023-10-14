@@ -29,9 +29,9 @@ function updateName(entity) {
     for (const e of entities) e.nameTag = nameTag;
 }
 
-events.entitySpawn.subscribe(ev => ev.entity.updateHealths());
-events.entityHurt.subscribe(ev => ev.hurtEntity.updateHealths());
-events.entityDie.subscribe(({ deadEntity: entity,damageSource }) => {
+afterEvents.entitySpawn.subscribe(ev => ev.entity.updateHealths());
+afterEvents.entityHurt.subscribe(ev => ev.hurtEntity.updateHealths());
+afterEvents.entityDie.subscribe(({ deadEntity: entity,damageSource }) => {
     const { location, typeId } = entity;
     if (/minecraft:|start_round/.test(typeId) || typeId == "dest:arrow") return;
     entity.nameTag = empty.repeat(maxChars);

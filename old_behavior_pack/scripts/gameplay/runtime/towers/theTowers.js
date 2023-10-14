@@ -87,6 +87,9 @@ class MageTower extends Tower{
     }
 }
 class ArcherTower extends Tower{
+    constructor() {
+        super()
+    }
     static abilities = ArcherTowerAbilities;
     async onImpulse(){await this.doImpulse().catch(errorHandle);}
     async doImpulse(){ let location = this.location, abilities = this.abilities;
@@ -129,7 +132,7 @@ class ArcherTower extends Tower{
         }
     }
 }
-events.projectileHit.subscribe((ev)=>{
+afterEvents.projectileHitEntity.subscribe((ev)=>{
     const {projectile} = ev, {damage,knockback:{center,impulse} = {}} = projectile;
     if(damage && center && impulse){
         delete projectile.damage;

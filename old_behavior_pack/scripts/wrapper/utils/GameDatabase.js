@@ -20,8 +20,8 @@ export class TowerElement extends Element{
 export class IgniteTowerElement extends TowerElement{}
 export class GameDatabase extends ElementDatabase{
     static async Start(objective){
-        if(typeof objective == 'string') objective = objectives(objective);
-        if(!objective instanceof ScoreboardObjective) throw new TypeError("Is not instanceof of ScoreboardObjective");
+        if(typeof objective == 'string') objective = getObjective(objective);
+        if(!(objective instanceof ScoreboardObjective)) throw new TypeError("Is not instanceof of ScoreboardObjective");
         return new GameDatabase(objective).init();
     }
     #id;
@@ -33,7 +33,7 @@ export class GameDatabase extends ElementDatabase{
         return this;
     }
     get session(){return this.getSession()};
-    /**@returns {Promise<SessionGameElement>} */
+    /**@returns {Promise<SessionGameElement|Element>} */
     async getSession(){
         if(this.hasElement(this.#id)) return this.getElement(this.#id, SessionGameElement);
         else {

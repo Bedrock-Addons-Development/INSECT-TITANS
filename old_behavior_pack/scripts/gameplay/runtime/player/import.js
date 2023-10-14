@@ -5,7 +5,7 @@ export * from './default.js';
 export * from './sidebar.js';
 //export * from './gameStart.js';
 
-events.worldInitialize.subscribe((ev)=>{
+afterEvents.worldInitialize.subscribe((ev)=>{
     const propertyDefinition = new DynamicPropertiesDefinition();
     for (const key of Object.getOwnPropertyNames(PlayerDynamicProperties)){
         propertyDefinition.defineNumber(PlayerDynamicProperties[key]);

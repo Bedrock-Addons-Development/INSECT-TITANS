@@ -32,7 +32,7 @@ export function IsBusy(player){return player[_busy];}
 export function SetBusy(player,busy){return player[_busy] = busy;}
 
 
-/**@type {{[key: string]: {action:()=>Promise<void>,content:string,icon?:string}}} */
+/**@type {{[key: string]: {action:(o)=>Promise<void>,content:string,icon?:string}}} */
 export const MainMenu = {};
 export const defualtSlot = 8;
 export const EventTypes = {

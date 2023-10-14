@@ -85,7 +85,7 @@ system.events.gameInitialize.subscribe(async() => {
     }
 
     //shitty command interface to spawn centipede
-    const chatCallback = world.events.beforeChat.subscribe((eventData) => {
+    const chatCallback = world.beforeEvents.chatSend.subscribe((eventData) => {
         if (eventData.message == "$summon centipede") {
             runCommand("say centipede summoned")
             spawnBoss(eventData.sender.location, 10)

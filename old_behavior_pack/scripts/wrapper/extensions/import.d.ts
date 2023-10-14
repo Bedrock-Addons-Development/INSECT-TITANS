@@ -1,32 +1,32 @@
 import * as mc from '@minecraft/server';
-import { TowerDefenition } from "../gameplay/building/towers"
+import * as ui from '@minecraft/server-ui';
 
 declare module "@minecraft/server" {
     namespace Enchantment {
-        var Custom: {[key: string]: { [key: number]: Enchantment }}
+        var Custom: { [key: string]: { [key: number]: Enchantment } }
     }
     interface Entity {
         readonly inventory?: EntityInventoryComponent;
         readonly container?: Container;
-        readonly armor?: EntityEquipmentInventoryComponent;
+        readonly armor?: EntityEquippableComponent;
         health: number;
         scale: number;
-        getMaxHealth():?number;
+        getMaxHealth?(): number;
         readonly viewBlock?: Block;
         readonly viewEntities: Entity[];
         readonly scores: { [key: string]: number };
         readonly isValidHandle: boolean;
     }
-    interface Container extends IterableIterator<ContainerSlot>{
+    interface Container extends IterableIterator<ContainerSlot> {
         [Symbol.iterator](): Generator<ContainerSlot>
     }
     interface Player {
         mainhand: ContainerSlot;
         getGameMode(): GameMode;
-        setGameMode(gamemode: Gamemode): Promise<CommandResult>;
+        setGameMode(gamemode: GameMode): Promise<CommandResult>;
         readonly isOnline: boolean;
-        confirm(body:string, title?:string): Promise<boolean>
-        info(body: string, title?: string): Promise<ActionFormResponse>
+        confirm(body: string, title?: string): Promise<boolean>
+        info(body: string, title?: string): Promise<ui.ActionFormResponse>
         blueXp: number;
         armorLevel: number;
         swordLevel: number;
@@ -40,12 +40,12 @@ declare module "@minecraft/server" {
         time: number;
         find(entity: Entity, query: EntityQueryOptions): Entity | false;
     }
-    interface System {readonly nextTick: Promise}
-    interface Dimension {setBlock(location: Vector3, type: BlockType | BlockPermutation): number}
+    interface System { readonly nextTick: Promise<number> }
+    interface Dimension { setBlock(location: Vector3, type: BlockType | BlockPermutation): number }
     interface Block {
         readonly canBeWaterlogged: boolean;
         readonly inventory?: BlockInventoryComponent;
-        readonly container?: BlockInventoryComponentContainer;
+        readonly container?: Container;
         setBlock(type: mc.BlockType | mc.BlockPermutation): void
     }
     interface ItemStack {
@@ -54,18 +54,24 @@ declare module "@minecraft/server" {
     }
     interface SystemEvents {
         readonly gameInitialize: EventSignal;
-        readonly tick: EventSignal<[{currentTick:number,deltaTime:number}]>;
+        readonly tick: EventSignal<[{ currentTick: number, deltaTime: number }]>;
     }
     namespace Vector {
         var from: (loc: Vector3) => Vector
         var normalized: (loc: Vector3) => Vector
         var dot: (loc1: Vector3, loc2: Vector3) => Vector3
-        var equals:(loc1: Vector3, loc2: Vector3) => boolean
+        var equals: (loc1: Vector3, loc2: Vector3) => boolean
     }
 }
 declare module "@minecraft/server-ui" {
     interface FormResponse {
         readonly output: (number | (string | number)[])
+    }
+    interface ActionFormResponse{
+        output: number;
+    }
+    interface MessageFormResponse{
+        output: number;
     }
 }
 
@@ -81,27 +87,41 @@ interface structureEntry {
 }
 
 declare global {
+    var console: {
+        error(...data: any[]): void;
+        info(...data: any[]): void;
+        log(...data: any[]): void;
+        warn(...data: any[]): void;
+        logLike(...data: any[]): void;
+    };
     var errorHandle: (er) => void;
+    var __date_clock: () => number;
+    var setTimeout: mc.System["runTimeout"];
+    var setInterval: mc.System["runInterval"];
+    var clearInterval: mc.System["clearRun"];
+    var clearTimeout: mc.System["clearRun"];
     var worldInitialized: Promise<void>;
     var gameInitialized: EventSignal;
     var world: mc.World;
     var system: mc.System;
-    var events: mc.Events;
+    var afterEvents: mc.WorldAfterEvents;
+    var beforeEvents: mc.WorldBeforeEvents;
     var overworld: mc.Dimension;
     var nether: mc.Dimension;
     var theEnd: mc.Dimension;
-    var nextTick: Promise;
+    var nextTick: Promise<number>;
     var currentTick: number;
-    var scoreboard: Scoreboard
+    var scoreboard: mc.Scoreboard
     var run: PromiseConstructor['prototype']['then'];
-    var objectives: (key: string, remove?:boolean|undefined)=> mc.ScoreboardObjective ;
     var sleep: (delay: number) => Promise<void>;
-    function runCommandAsync(command: string): Promise<CommandResult>;
+    function runCommandAsync(command: string): Promise<mc.CommandResult>;
+    function getObjective(key: string, remove?: boolean | undefined): mc.ScoreboardObjective;
+    function OverTakesJS<T extends {}, U>(prototype: T, object: U, getObject?: boolean): U;
     interface Object {
         formatXYZ(): string;
     }
-    interface Symbol {
-        static isGenerator: Symbol
+    interface SymbolConstructor {
+        isGenerator: Symbol
     }
     interface Date {
         toHHMMSS(): string
@@ -116,15 +136,15 @@ declare global {
         createUID(): number
     }
     interface Number {
-        unitFormat(place?: number, space?: string,exponent:?number,component?:number): string,
+        unitFormat(place?: number, space?: string, exponent?: number, component?: number): string,
         floor(): number,
         toHHMMSS(): string
     }
     interface Array<T> {
         readonly randomElement: T,
-        readonly x:number,
-        readonly y:number,
-        readonly z:number,
+        readonly x: number,
+        readonly y: number,
+        readonly z: number,
         remove(element: any): this;
         removeAll(element: any): this;
     }
@@ -264,12 +284,12 @@ declare global {
         readonly prototype: AsyncFunction;
     }
     interface AsyncFunction extends Function {
-        (): Promise
-        readonly prototype: Promise
+        (T): Promise<any>
+        readonly prototype: PromiseConstructor
     }
 }
 type EventSignal<arguments = []> = {
-    trigger(...params: arguments): Promise<number>
-    subscribe<k extends (...args: arguments) => any>(method: k): k
-    unsubscribe<k extends (...args: arguments) => any>(method: k): k
+    trigger(...params: arguments[]): Promise<number>
+    subscribe<k extends (...args: arguments[]) => any>(method: k): k
+    unsubscribe<k extends (...args: arguments[]) => any>(method: k): k
 }

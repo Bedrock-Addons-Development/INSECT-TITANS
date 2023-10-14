@@ -72,35 +72,35 @@ export const ItemModifiers = {
     }
 }
 export const InventoryItems = {
-    [EquipmentSlot.head]:[
+    [EquipmentSlot.Head]:[
         MinecraftItemTypes.leatherHelmet,
         MinecraftItemTypes.chainmailHelmet,
         MinecraftItemTypes.ironHelmet,
         MinecraftItemTypes.diamondHelmet,
         MinecraftItemTypes.netheriteHelmet
     ],
-    [EquipmentSlot.chest]:[
+    [EquipmentSlot.Chest]:[
         MinecraftItemTypes.leatherChestplate,
         MinecraftItemTypes.chainmailChestplate,
         MinecraftItemTypes.ironChestplate,
         MinecraftItemTypes.diamondChestplate,
         MinecraftItemTypes.netheriteChestplate
     ],
-    [EquipmentSlot.legs]:[
+    [EquipmentSlot.Legs]:[
         MinecraftItemTypes.leatherLeggings,
         MinecraftItemTypes.chainmailLeggings,
         MinecraftItemTypes.ironLeggings,
         MinecraftItemTypes.diamondLeggings,
         MinecraftItemTypes.netheriteLeggings
     ],
-    [EquipmentSlot.feet]:[
+    [EquipmentSlot.Feet]:[
         MinecraftItemTypes.leatherBoots,
         MinecraftItemTypes.chainmailBoots,
         MinecraftItemTypes.ironBoots,
         MinecraftItemTypes.diamondBoots,
         MinecraftItemTypes.netheriteBoots
     ],
-    [EquipmentSlot.offhand]:[
+    [EquipmentSlot.Offhand]:[
         undefined,
         MinecraftItemTypes.shield
     ],

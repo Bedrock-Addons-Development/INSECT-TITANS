@@ -3,7 +3,7 @@
  - Current version is not available yet
 
 ## Requirements
- - Version - Minecraft Bedrock: 1.19.80.24 +above
+ - Version - Minecraft Bedrock: 1.20.50 +above
  - Multiplayer (recommended)
 
 ## Current Team

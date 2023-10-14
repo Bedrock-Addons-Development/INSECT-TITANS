@@ -13,7 +13,7 @@ const [parse,stringify] = [JSON.parse.bind(JSON),JSON.stringify.bind(JSON)]
 export class Database extends Map{
     /**@param {string} objective @returns {Database} */
     static createDatabase(name){
-        return this.getDatabase(objectives(name));
+        return this.getDatabase(getObjective(name));
     }
     /**@param {ScoreboardObjective} objective @returns {Database} */
     static getDatabase(objective){
@@ -27,7 +27,7 @@ export class Database extends Map{
     /**@param {Database} databse */
     static deleteDatabase(databse){
         if(sets.has(databse.id)) sets.delete(databse.id);
-        objectives(databse.objective,true);
+        getObjective(databse.objective,true);
         return true;
     }
     /**
@@ -97,8 +97,8 @@ export class Database extends Map{
         return super.delete(key);
     }
     clear() {
-        objectives(this.#objective,true);
-        this.#objective = objectives(this.#id);
+        getObjective(this.#objective,true);
+        this.#objective = getObjective(this.#id);
         this.#participants.clear();
         return super.clear();
     }

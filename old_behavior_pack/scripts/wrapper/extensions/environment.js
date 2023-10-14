@@ -13,10 +13,24 @@ export const AsyncGenerator = AsyncGeneratorFunction.prototype;
 /** @type {FunctionConstructor} */
 export const AsyncFunctionConstructor = Object.getPrototypeOf(async function () { }).constructor;
 
+/**@type {<T extends {}, U>(target: T, source: U, getObj?: boolean)=> U}*/
+var OverTakesJS; {
+    const { defineProperties, getOwnPropertyDescriptors, getPrototypeOf, setPrototypeOf } = Object;//@ts-ignore
+    OverTakesJS = function (prototype, object, getObject = false) {
+        prototype ||= this;
+        const prototypeOrigin = setPrototypeOf(defineProperties({}, getOwnPropertyDescriptors(prototype)), getPrototypeOf(prototype));
+        setPrototypeOf(object, prototypeOrigin);
+        defineProperties(prototype, getOwnPropertyDescriptors(object));
+        return getObject ? object : prototypeOrigin;
+    };
+    globalThis.OverTakesJS = OverTakesJS;
+};
+
+
 import { MinecraftDimensionTypes, system, world } from '@minecraft/server';
 import './dynamic.js';
-//@ts-ignore
-const { scoreboard, events } = world,
+
+const { scoreboard, afterEvents } = world,
     overworld = world.getDimension(MinecraftDimensionTypes.overworld),
     nether = world.getDimension(MinecraftDimensionTypes.nether),
     theEnd = world.getDimension(MinecraftDimensionTypes.theEnd);
@@ -40,19 +54,26 @@ const globalThisPrototype = {
     runCommandAsync: overworld.runCommandAsync.bind(overworld),
     sleep: (n) => new Promise(res => setTimeout(res, n)),
     errorHandle: er => console.error(er?.name ?? er, er?.message ?? '', er?.stack ?? ""),
-    system, world, events,scoreboard,
-    worldInitialized: new Promise(res => events.worldInitialize.subscribe(res)), overworld, nether, theEnd,
-    gameInitialized: new Promise(res => system.events.gameInitialize.subscribe(res))
-}
+    system, world, events: afterEvents, scoreboard,
+    worldInitialized: new Promise(res => afterEvents.worldInitialize.subscribe(res)), overworld, nether, theEnd,
+    gameInitialized: new Promise(res => system.events?.gameInitialize.subscribe(res))
+};
+
+
 const globalThisProperties = {
-    nextTick: { get() { return new Promise(res => setTimeout(() => res(system.currentTick + 1))); } },
     currentTick: { get() { return system.currentTick; } },
-    objectives: {
+    getObjective: {
         value(obj, remove = false) {
             return !remove ? scoreboard.getObjective(obj) ?? scoreboard.addObjective(obj, obj) : scoreboard.removeObjective(obj)
         }
     }
 }
+{
+
+    const timeOut = res => setTimeout(() => res(system.currentTick + 1))
+    globalThisProperties.nextTick = { get() { return new Promise(timeOut); } }
+}
+
 const DatePrototype = {
     toHHMMSS() { return this.toTimeString().split(' ')[0]; }
 }
@@ -64,6 +85,8 @@ const MathPrototype = {
         return this.random() * (x - n) + n;
     }
 }
+
+
 const NumberPrototype = {
     unitFormat(place = 1, space = "", exponent = 3, component = 1) {
         for (let i = 0, n = this, c = 10 ** (exponent + component), e = 10 ** exponent; true; i++) {
@@ -79,7 +102,7 @@ const NumberPrototype = {
 }
 const NumberType = {
     unitTypes: ['', 'k', 'M', 'G', 'T', 'E'],
-    createUID(){ return `${~~(__date_clock() / 1000000)}-${system.currentTick}-${~~(Math.random() * 900 + 100)}`; }
+    createUID() { return `${~~(__date_clock() / 1000000)}-${system.currentTick}-${~~(Math.random() * 900 + 100)}`; }
 }
 const ArrayProperties = {
     x: { get() { return this[0] } },
@@ -95,10 +118,8 @@ const ArrayProperties = {
     },
     removeAll: {
         value(value) {
-            let i = 0;
-            while (i < this.length) {
+            for (let i = this.length; i--;) {
                 if (this[i] === value) this.splice(i, 1);
-                else ++i;
             }
             return this;
         }
@@ -119,8 +140,8 @@ Object.assign(Math, MathPrototype);
 Object.assign(Number.prototype, NumberPrototype);
 Object.assign(Number, NumberType);
 
-Object.defineProperties(Array.prototype,ArrayProperties)
-Object.defineProperties(globalThis,globalThisProperties);
+Object.defineProperties(Array.prototype, ArrayProperties)
+Object.defineProperties(globalThis, globalThisProperties);
 
 function nFix(num, place) {
     let n = "" + num;

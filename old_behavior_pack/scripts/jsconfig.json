@@ -2,10 +2,11 @@
     "compilerOptions": {
         "module": "CommonJS",
         "baseUrl": ".",
-        "target": "ES2022",
+        "lib": ["ES2022"],
         "skipLibCheck": false,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "esModuleInterop": true,
+        "types": ["./wrapper/extensions/import.d.ts"]
     }
 }

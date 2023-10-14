@@ -1,11 +1,11 @@
 import { MenuFormData } from "wrapper.js";
 import { MainMenu } from "./default.js";
-import { Enchantment, EquipmentSlot, MinecraftEnchantmentTypes, Player } from "@minecraft/server";
+import { Enchantment, EquipmentSlot, EnchantmentTypes, Player } from "@minecraft/server";
 import { InitInventory } from "../player/default.js";
 
 
 /* Settings Registration */
-MainMenu.SelfUpdate = {
+MainMenu["SelfUpdate"] = {
     action: start,
     content: "Tools & Abilities"
 }
@@ -108,27 +108,27 @@ async function confirm(player,cost){
 
 
 /**@param {Player} player */
-function getStrength(player){return player.container.getItem(0).enchantments.hasEnchantment(MinecraftEnchantmentTypes.sharpness);}
+function getStrength(player){return player.container.getItem(0).enchantments.hasEnchantment(EnchantmentTypes.get("sharpness"));}
 /**@param {Player} player */
-function getResistance(player){return player.armor.getEquipment(EquipmentSlot.chest).enchantments.hasEnchantment(MinecraftEnchantmentTypes.protection);}
+function getResistance(player){return player.armor.getEquipment(EquipmentSlot.Chest).enchantments.hasEnchantment(EnchantmentTypes.get("protection"));}
 /**@param {Player} player */
-function getMining(player){return player.container.getItem(1).enchantments.hasEnchantment(MinecraftEnchantmentTypes.efficiency);}
+function getMining(player){return player.container.getItem(1).enchantments.hasEnchantment(EnchantmentTypes.get("efficiency"));}
 
 /**@param {Player} player */
 function setStrength({container},level){
     const item = container.getItem(0), {enchantments} = item;
-    enchantments.removeEnchantment(MinecraftEnchantmentTypes.sharpness);
-    enchantments.addEnchantment(Enchantment.Custom[MinecraftEnchantmentTypes.sharpness.id][level]);
+    enchantments.removeEnchantment(EnchantmentTypes.get("sharpness"));
+    enchantments.addEnchantment(Enchantment.Custom[EnchantmentTypes.get("sharpness").id][level]);
     item.enchantments = enchantments;
     return container.setItem(0,item);
 }
 /**@param {Player} player */
 function setResistance({armor},level){
-    const resistanceSlots = [EquipmentSlot.head,EquipmentSlot.chest,EquipmentSlot.feet,EquipmentSlot.legs];
+    const resistanceSlots = [EquipmentSlot.Head,EquipmentSlot.Chest,EquipmentSlot.Feet,EquipmentSlot.Legs];
     for (const slot of resistanceSlots) {
         const item = armor.getEquipment(slot), {enchantments} = item;
-        enchantments.removeEnchantment(MinecraftEnchantmentTypes.protection);
-        enchantments.addEnchantment(Enchantment.Custom[MinecraftEnchantmentTypes.protection.id][level]);
+        enchantments.removeEnchantment(EnchantmentTypes.get("protection"));
+        enchantments.addEnchantment(Enchantment.Custom[EnchantmentTypes.get("protection").id][level]);
         item.enchantments = enchantments;
         armor.setEquipment(slot,item);
     }
@@ -138,8 +138,8 @@ function setMining({container},level){
     const minigSlots = [1,2];
     for (const slot of minigSlots) {
         const item = container.getItem(slot), {enchantments} = item;
-        enchantments.removeEnchantment(MinecraftEnchantmentTypes.efficiency);
-        enchantments.addEnchantment(Enchantment.Custom[MinecraftEnchantmentTypes.efficiency.id][level]);
+        enchantments.removeEnchantment(EnchantmentTypes.get("efficiency"));
+        enchantments.addEnchantment(Enchantment.Custom[EnchantmentTypes.get("efficiency").id][level]);
         item.enchantments = enchantments;
         container.setItem(slot,item);
     }
