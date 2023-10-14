@@ -1,3 +1,5 @@
-import { game } from "../core/index";
+import { loader } from "./TheLoader";
 
-game.onInitialize.subscribe(()=>{});
+loader.registry(async ()=>{
+    
+});

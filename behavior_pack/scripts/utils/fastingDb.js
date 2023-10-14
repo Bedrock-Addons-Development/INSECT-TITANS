@@ -1,6 +1,10 @@
 import { World, world, Entity } from "@minecraft/server";
 const maxPropertyLength = 32000;
 
+// prevents multiple instances for one dynamic property source
+const DB_Instances = new WeakMap();
+
+
 export class FastingDB {
     /**@private */
     storageType;
@@ -10,10 +14,11 @@ export class FastingDB {
     cache = new Map();
     /** @param {World | Entity | undefined} storageType */
     constructor(storageType = world) {
+        if(DB_Instances.has(storageType)) return DB_Instances.get(storageType);
+        DB_Instances.set(storageType, this);
         this.storageType = storageType;
         this.__id = (storageType instanceof World) ? "WORLD_db_" : storageType.id + "_db_"
     }
-
     /**
      * Returns A Filtered List Of Property Ids That Are Valid DB Entires
      * @private
