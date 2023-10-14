@@ -1,0 +1,57 @@
+{
+	"format_version": "1.19.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "dest:database",
+			"is_summonable": true,
+			"is_spawnable": true
+		},
+		"component_groups": {
+			"dest:despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+		"components": {
+			"minecraft:inventory": {
+				"can_be_siphoned_from": false,
+				"container_type": "inventory",
+				"inventory_size": 50
+			},
+			"minecraft:health": {
+				"max":1,
+				"value": 1,
+				"min":1
+			},
+			"minecraft:physics": {
+				"has_collision": false,
+				"has_gravity": false
+			},
+			"minecraft:collision_box": {
+				"width": 0,
+				"height": 0
+			},
+			"minecraft:pushable": {
+				"is_pushable": false,
+				"is_pushable_by_piston": false
+			},
+			"minecraft:breathable": {
+				"breathes_water": true,
+				"breathes_lava": true,
+				"breathes_air": true,
+				"breathes_solids": true
+			},
+			"minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"deals_damage": false
+					}
+				]
+			},
+			"minecraft:nameable": {
+				"always_show": false,
+				"allow_name_tag_renaming": false
+			}
+		},
+		"events": {}
+	}
+}
