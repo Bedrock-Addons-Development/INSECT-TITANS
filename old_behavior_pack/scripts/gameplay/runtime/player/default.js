@@ -1,6 +1,6 @@
 import {
     GameMode, Player, Vector,
-    EquipmentSlot, ItemStack, ItemLockMode
+    EquipmentSlot, ItemStack, ItemLockMode, Dimension, BlockTypes, EffectTypes
 } from "@minecraft/server";
 import { InfoMapProperties, InventoryItems, ItemModifiers, MenuItemStacks, PlayerDynamicProperties, ToolSlot, ToolSlots, centerLocation } from "resources";
 import { ItemStackBuilder, deathScreen } from "wrapper";
@@ -128,7 +128,7 @@ export async function InitInventory(player) {
 /** @param {Player} player */
 async function shield(player, ticks = 20) {
     if (!player.hasTag(runtimeTag)) return;
-    player.addEffect(MinecraftEffectTypes.instantHealth, ticks, 255, false);
+    player.addEffect("instant_health", ticks, 255, false);
     while (ticks--) {
         await nextTick;
         for (const e of player.dimension.getEntities({ location: player.location, families: ["enemy"], maxDistance: 5 })) e.applyImpulse(Vector.multiply(Vector.subtract(e.location, player.location), 0.5));
@@ -156,20 +156,21 @@ function onPlayer({ player, initialSpawn }) {
 }
 const EntityEventOptions = { entityTypes: ["minecraft:player"] };
 async function RunCommands(target, commands) { for (const cmd of commands) target.runCommandAsync(cmd); }
-afterEvents.blockBreak.subscribe(({ player, block, brokenBlockPermutation: permutation }) => onBlockBreak(player, block, permutation).catch(errorHandle));
-afterEvents.entityHit.subscribe(({ hitEntity, entity }) => hitEntity ? onInteract(entity, Interactions.hit).catch(errorHandle) : null, EntityEventOptions);
+afterEvents.playerBreakBlock.subscribe(({ player, block, brokenBlockPermutation: permutation }) => onBlockBreak(player, block, permutation).catch(errorHandle));
+afterEvents.entityHitEntity.subscribe(({ hitEntity, damagingEntity: entity }) => hitEntity ? onInteract(entity, Interactions.hit).catch(errorHandle) : null, EntityEventOptions);
 afterEvents.entityHurt.subscribe(({ hurtEntity }) => onInteract(hurtEntity, Interactions.hurt).catch(errorHandle), EntityEventOptions);
 afterEvents.entityDie.subscribe(({ deadEntity }) => onDie(deadEntity).catch(errorHandle), EntityEventOptions);
 afterEvents.playerSpawn.subscribe(onPlayer);
 for (const player of world.getPlayers()) onPlayer({ player, initialSpawn: true });
 
-
+/**@type {[import("@minecraft/server").Vector3, {dimension:Dimension}]} */
+const ovwBase = [base, { dimension: overworld }];
 /**@param {Player} player */
 function onBaseSpawn(player) {
     player.scale = 0.45;
     player.onScreenDisplay.setActionBar(' ');
-    player.runCommandAsync('clear');
-    player.teleport(base, overworld, 0, 0);
+    player.runCommandAsync("clear");
+    player.teleport(...ovwBase);
 }
 /**@param {Player} player */
 function startIt(player) {
@@ -181,14 +182,14 @@ async function doLobby() {
         await nextTick;
         for (const p of world.getPlayers({ excludeTags: [runtimeTag] })) {
             try {
-                const { dimension, location } = p, block = dimension.getBlock(location);
-                if (location.y < 150) p.teleport(base, overworld, 0, 0);
-                if (block.type == MinecraftBlockTypes.portal) {
+                const { location } = p, block = p.dimension.getBlock(location);
+                if (location.y < 150) p.teleport(...ovwBase);
+                if (block.type == BlockTypes.get("portal")) {
                     startIt(p);
                     continue;
                 }
-                p.addEffect(MinecraftEffectTypes.resistance, 100, 255, false);
-                p.addEffect(MinecraftEffectTypes.instantHealth, 100, 255, false);
+                p.addEffect(EffectTypes.get("resistance"), 100, { amplifier: 255 });
+                p.addEffect(EffectTypes.get("instant_health"), 100, { amplifier: 255 });
             } catch (error) { }
         }
     }

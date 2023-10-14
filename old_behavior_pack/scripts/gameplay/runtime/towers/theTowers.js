@@ -1,5 +1,5 @@
-import { EffectType, Entity, EntityDamageCause, EntityScaleComponent, MinecraftEffectTypes, Player, Vector } from "@minecraft/server";
-import { ArcherTowerAbilities, MageTowerAbilities, TowerAbilityInformations, TowerDefaultAbilities, TowerTypes } from "resources";
+import { Entity, Vector } from "@minecraft/server";
+import { ArcherTowerAbilities, MageTowerAbilities, TowerTypes } from "resources";
 import { ImpulseParticlePropertiesBuilder, RadiusArea, TowerElement } from "wrapper";
 
 const defualtQuery = {families:['enemy'],excludeTypes:['dest:centipede_tail','dest:centipede_body']};
@@ -40,7 +40,7 @@ class Tower{
     }
     async #onImpulse(){
         const element = this.#element;
-        this.#abilities = new this.#abilities.constructor(this.level);
+        this.#abilities = new MageTowerAbilities(this.level);
         if(element.isDisposed) return this.onDispose();
         setTimeout(()=>this.#onImpulse().catch(errorHandle),this.interval);
         await this.onImpulse();
@@ -93,7 +93,6 @@ class ArcherTower extends Tower{
     static abilities = ArcherTowerAbilities;
     async onImpulse(){await this.doImpulse().catch(errorHandle);}
     async doImpulse(){ let location = this.location, abilities = this.abilities;
-        const r = abilities.getRange();
         location = Vector.add(location,{x:0.5,y:0.2,z:0.5});
         const loc2 = Vector.add(location,{x:0.5,y:10,z:0.5});
         for (const e of overworld.getEntities(Object.setPrototypeOf({location,maxDistance:abilities.getRange(),closest:abilities.getMaxTargets(),},defualtQuery))) {
@@ -153,14 +152,4 @@ function anglesFromVector(vector) {
     const angleX = Math.atan2(z, x);
     const angleY = Math.atan2(y, magnitudeXY);
     return { x: angleX*180/Math.PI, y: angleY*180/Math.PI };
-}
-function angleBetweenVectors(vectorA, vectorB) {
-    const dotProduct = vectorA.x * vectorB.x + vectorA.y * vectorB.y;
-    const magnitudeA = Math.sqrt(vectorA.x ** 2 + vectorA.y ** 2);
-    const magnitudeB = Math.sqrt(vectorB.x ** 2 + vectorB.y ** 2);
-    let angleInRadians = Math.acos(dotProduct / (magnitudeA * magnitudeB));
-    if (vectorA.x * vectorB.y - vectorA.y * vectorB.x < 0) {
-      angleInRadians = 2 * Math.PI - angleInRadians;
-    }
-    return radiansToDegrees(angleInRadians);
 }
