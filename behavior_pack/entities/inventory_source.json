@@ -2,14 +2,9 @@
 	"format_version": "1.19.0",
 	"minecraft:entity": {
 		"description": {
-			"identifier": "dest:database",
+			"identifier": "insect:inventory",
 			"is_summonable": true,
 			"is_spawnable": true
-		},
-		"component_groups": {
-			"dest:despawn": {
-				"minecraft:instant_despawn": {}
-			}
 		},
 		"components": {
 			"minecraft:inventory": {

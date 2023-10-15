@@ -1,11 +1,15 @@
 import { loader } from "./TheLoader";
+import { betterEnchantments, InsectEntities } from "../resources/index";
 
-const x_enchantments = {};
-loader.registry(async () => {
+//using better enchantments for registring new enchantments, other files should not import loaders!
+const DEFINED_ENCHANTMENTS = new Set();
+
+//using ticking location for manipulate or load these enchantments
+loader.registry(async (tickingLocation) => {
 });
 
 {
-    world.overworld.runCommand("tickingarea add circle 0 0 0 0 o")
+    //world.overworld.runCommand("tickingarea add circle 0 0 0 0 o")
     world.overworld.runCommandAsync("structure load x_enchantments 0 130 0");
     let spawned = world.afterEvents.entityLoad.subscribe(({ entity }) => {
         if (entity?.typeId !== "dest:database") return;
@@ -15,12 +19,12 @@ loader.registry(async () => {
 
             if (!item) {
                 spawned = world.afterEvents.entitySpawn.unsubscribe(spawned);
-                world.overworld.runCommand("tickingarea remove o");
+                //world.overworld.runCommand("tickingarea remove o");
                 // console.warn(JSON.stringify(x_enchantments, 0, 6));
                 return entity.remove();
             }
 
-            const enchList = item.getComponent("enchantments").enchantments;
+            const enchList = item.enchantments;
             for (const E of enchList) {
                 const { type: { id }, level } = E;
                 x_enchantments[id] ? x_enchantments[id][level] = E : x_enchantments[id] = { [level]: E };
