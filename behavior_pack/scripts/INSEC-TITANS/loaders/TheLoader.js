@@ -1,3 +1,4 @@
+import { Dimension } from "@minecraft/server";
 import { game } from "INSEC-TITANS/core/index";
 
 export class Loader{
@@ -14,7 +15,7 @@ export class Loader{
         game.onReady.trigger({game});
         return data;
     }
-    /**@param {(...any: any)=>any} method */
+    /**@param {(dimension: Dimension, location: import("@minecraft/server").Vector3)=>any} method */
     registry(method){
         this.methods.add(method);
     }

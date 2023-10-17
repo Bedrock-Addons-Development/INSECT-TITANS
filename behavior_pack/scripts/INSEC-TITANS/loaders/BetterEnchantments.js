@@ -1,13 +1,16 @@
 import { loader } from "./TheLoader";
-import { betterEnchantments, InsectEntities } from "../resources/index";
+import { betterEnchantments } from "../resources/index";
 import { FutureTask } from "utils/index";
+import { InsectEntities, Structures } from "Definitions";
+
 
 
 //using ticking location for manipulate or load these enchantments
 const FUTURE_TASK = new FutureTask();
 loader.registry(async (dimension, location) => {
-    await dimension.runCommandAsync("say Hi")
-    await FUTURE_TASK.then(()=>console.warn("Then"));
+    const {successCount} = await dimension.runCommandAsync(`structure load ${Structures.BetterEnchantments} ${location.x} -64 ${location.y} 0_degrees `);
+    if(!successCount) console.error("Better Enchantments can't load in ", new Error().stack);
+    await FUTURE_TASK;
 });
 
 
@@ -18,9 +21,10 @@ const job = world.afterEvents.entityLoad.subscribe(({ entity }) => {
     for (let slot = 0, size = inv.size; slot < size; slot++) {
         const item = inv.getItem(slot);
         if (!item) {
-            FUTURE_TASK.resolver();
+            FUTURE_TASK._resolver();
             world.afterEvents.entitySpawn.unsubscribe(job);
             entity.remove();
+            return;
         }
         for (const E of item.enchantments) betterEnchantments.registerEnchantment(E); 
     }

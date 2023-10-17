@@ -3,10 +3,8 @@ import { Enchantment, EnchantmentType, EnchantmentTypes } from "@minecraft/serve
 export class BetterEnchantments{
     /**@private */
     betterEnchantments;
-    constructor(){
-        this.betterEnchantments = new Map();
-    }
-    /**@param {number} level @param {string | EnchantmentType} type  */
+    constructor(){this.betterEnchantments = new Map();}
+    /**@param {number} level @param {string | EnchantmentType} type @returns {Enchantment | undefined} */
     getEnchantment(type,level){
         let id = type;
         if(typeof type === "string") type = EnchantmentTypes.get(type);
@@ -14,20 +12,16 @@ export class BetterEnchantments{
         if(level<=type.maxLevel){
             return new Enchantment(type,level);
         }
-        const i = this.betterEnchantments.get(type);
+        const i = this.betterEnchantments.get(type.id);
         if(!i) return null;
-        return e[level];
+        return i[level];
     }
     /**@param {Enchantment} enchantment  */
     registerEnchantment(enchantment){
         const {type,level} = enchantment;
-        let base = this.betterEnchantments.get(type);
-        if(!base){
-            base = {};
-            for (let lvl = 0; lvl <= type.maxLevel; lvl++) base[lvl] = new Enchantment(type,lvl);
-        }
+        let base = this.betterEnchantments.get(type.id)??{};
         base[level] = enchantment;
-        this.betterEnchantments.set(type,base);
+        this.betterEnchantments.set(type.id,base);
         return true;
     }
 }
