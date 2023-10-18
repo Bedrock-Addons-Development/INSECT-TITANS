@@ -14,7 +14,7 @@ export class FastingDB {
     cache = new Map();
     /** @param {World | Entity | undefined} storageType */
     constructor(storageType = world) {
-        if(DB_Instances.has(storageType)) return DB_Instances.get(storageType);
+        if (DB_Instances.has(storageType)) return DB_Instances.get(storageType);
         DB_Instances.set(storageType, this);
         this.storageType = storageType;
         this.__id = (storageType instanceof World) ? "WORLD_db_" : storageType.id + "_db_"
@@ -62,12 +62,40 @@ export class FastingDB {
      */
     get(key) {
         const storages = this.getPropertyIds(key)
-        if (storages.length === 1) return JSON.parse(this.storageType.getDynamicProperty(storages[0]))
+        if (storages.length === 1) {
+
+            const nativeType = storages[0]
+            if (
+                typeof nativeType == "boolean"
+                || typeof nativeType == "number"
+                || (Object.keys(nativeType).join("") === "xyz")
+            ) return nativeType
+            return JSON.parse(this.storageType.getDynamicProperty(storages[0]))
+        }
         return JSON.parse(storages.reduce((prev, curr) => {
             prev += this.storageType.getDynamicProperty(curr)
             return prev
         }, ""))
     }
+
+
+    /**
+     * @private
+     * @param {string} key 
+     * @param {any} value 
+     */
+    setString(key, value) {
+        const { storageType, __id } = this
+        const data = JSON.stringify(value)
+
+        let propertyCount = 0;
+        for (let i = 0; i < data.length; i += maxPropertyLength) {
+            const chunk = data.substring(i, i + maxPropertyLength)
+            storageType.setDynamicProperty(__id + key + propertyCount, chunk)
+            propertyCount++
+        }
+    }
+
 
     /**
      * @param {string} key 
@@ -75,13 +103,18 @@ export class FastingDB {
      */
     set(key, value) {
         const { storageType, __id } = this
-        const data = JSON.stringify(value)
 
-        let propertyCount = 0;
-        for (let i = 0; i < maxPropertyLength; i += maxPropertyLength) {
-            const chunk = data.substring(i, i + maxPropertyLength)
-            storageType.setDynamicProperty(__id + key + propertyCount, chunk)
-            propertyCount++
+        switch (typeof data) {
+            case "number": { storageType.setDynamicProperty(__id + key + "0", data); break }
+            case "boolean": { storageType.setDynamicProperty(__id + key + "0", data); break }
+            case "object": {
+                Object.keys(data).join("") === "xyz" ?
+                    storageType.setDynamicProperty(__id + key + "0", data)
+                    : this.setString(key, value)
+            }
+            default: {
+                this.setString(key, value)
+            }
         }
         this.updateCache()
         return this
@@ -108,7 +141,32 @@ export class FastingDB {
     get size() {
         return this.getPropertyIds().length
     }
-    *entries() {
+    entries() {
+        return this.constuctEntries()
+    }
+    /** @param {string} key*/
+    has(key) {
+        return !!this.getPropertyIds(key)
+    }
+    /** @param {(value : any, key : string, map : FastingDB) => void} func  */
+    forEach(func) {
+        const entries = this.constuctEntries()
+        for (const [key, value] of entries) func(value, key, this)
+    }
+    *keys() {
+        const entries = this.constuctEntries(true)
+        for (const [key] of entries) yield key
+    }
+    *values() {
+        const entries = this.constuctEntries()
+        for (const [_, value] of entries) yield value
+    }
+
+    /** 
+     * @param {boolean} [skipGet=false] 
+     * @private 
+     */
+    *constuctEntries(skipGet = false) {
         const { __id } = this
         const props = this.getPropertyIds()
         /** @type {string[]}*/
@@ -117,20 +175,7 @@ export class FastingDB {
             const key = prop.substring(__id.length)
             if (keys.includes(key)) continue
             keys.push(key)
-            yield this.get(key)
+            yield [key, skipGet ? null : this.get(key)]
         }
-    }
-    /** @param {string} key*/
-    has(key) {
-        return !!this.getPropertyIds(key)
-    }
-    forEach() {
-        throw new Error("Method Not Implemented.")
-    }
-    keys() {
-        throw new Error("Method Not Implemented.")
-    }
-    values() {
-        throw new Error("Method Not Implemented.")
     }
 }
