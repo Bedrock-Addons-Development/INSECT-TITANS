@@ -9,6 +9,7 @@ export class Loader{
     /**@returns {Promise<any[]>} */
     async start(source){
         const tasks = [];
+        console.warn(JSON.stringify(source.location));
         for (const method of this.methods) 
             tasks.push((async (obj)=>method(obj.dimension,obj.location))(source).catch(displayError));
         const data = await Promise.all(tasks);

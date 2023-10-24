@@ -1,2 +1,2 @@
 import "./TheLoader";
-import "./BetterEnchantments";
+import "./StructureResources";
