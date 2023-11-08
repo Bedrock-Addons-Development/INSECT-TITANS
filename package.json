@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "The INSECT TITANS",
   "scripts": {
+    "dev" : "regolith watch",
     "watch": "regolith watch",
     "update": "npm install @minecraft/server-ui@beta @minecraft/server@beta & regolith run",
     "open": "regolith run & explorer \".\\resources\\World-No-Packs.mcworld\""
